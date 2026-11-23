@@ -100,7 +100,7 @@ The experiments need a CUDA GPU (the analysis scripts run on CPU). The two model
 `torch`/`transformers` versions, so each gets its own environment:
 
 ```bash
-git clone https://github.com/<user>/tsfm-finetuning-gifteval.git
+git clone https://github.com/MoradLaglil/tsfm-finetuning-gifteval.git
 cd tsfm-finetuning-gifteval
 bash scripts/setup_envs.sh          # creates conda envs "tsfm-chronos2" and "tsfm-ttm" (Python 3.11)
 ```
