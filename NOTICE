@@ -1,0 +1,30 @@
+Fine-tuning time series foundation models on GIFT-Eval
+Copyright 2026 Morad Laglil, Bertrand Pracca, Emilie Devijver, Eric Gaussier
+
+This repository is distributed under the Apache License, Version 2.0 (see LICENSE).
+It contains or depends on the following third-party work:
+
+1. TTM-R3 GIFT-Eval runner (ttm/run_ttm_r3.py, ttm/src/, ttm/resources/)
+   Copyright contributors to the TSFM project, Apache License 2.0 (see ttm/LICENSE-granite-tsfm).
+   Source: https://github.com/ibm-granite/granite-tsfm, branch ttm-r3-release-mq2, commit e911cd1,
+   notebooks/hfdemo/tinytimemixer/full_benchmarking/gift_leaderboard_ttm_r3_nc/.
+   Modifications made by the authors for the paper:
+     - LoRA fine-tuning through PEFT (r, alpha, dropout, target modules), with the multi-quantile head
+       fully trained, and logging of the trainable parameters;
+     - step-based training: at most 4,000 steps, validation, checkpointing and logging every 30 steps
+       (instead of once per epoch), best checkpoint restored with early stopping;
+     - sample caps lowered to 100,000 training / 10,000 validation windows, applied to the full-shot
+       setting as well when -ubfs is set; seeded sampling of the validation subset;
+     - configurable random seed (-seed), sequential processing of the datasets with memory release,
+       detection of failed fine-tuning runs, SLURM-aware Ray initialization;
+     - LoRA-aware learning-rate finder signature (tsfm_public/toolkit/lr_finder.py; not used here since
+       all fine-tuning scripts set the learning rate, so the public tsfm_public at commit e911cd1 is used).
+   Repository-only modifications: local imports, configurable output directory, optional dataset/horizon
+   subset.
+
+2. GIFT-Eval data loader (installed from https://github.com/SalesforceAIResearch/gift-eval, commit 795b246)
+   Copyright (c) 2024 Salesforce, Inc., Apache License 2.0.
+   analysis/seasonal_naive.csv contains the Seasonal Naive results published in that repository.
+
+3. Chronos-2 (https://github.com/amazon-science/chronos-forecasting) and AutoGluon
+   (https://github.com/autogluon/autogluon), Apache License 2.0, used as dependencies.

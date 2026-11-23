@@ -1,0 +1,27 @@
+cff-version: 1.2.0
+message: "If you use this code, please cite the paper below."
+title: "Fine-Tuning Time Series Foundation Models on GIFT-Eval"
+authors:
+  - family-names: Laglil
+    given-names: Morad
+  - family-names: Pracca
+    given-names: Bertrand
+  - family-names: Devijver
+    given-names: Emilie
+  - family-names: Gaussier
+    given-names: Eric
+license: Apache-2.0
+preferred-citation:
+  type: article
+  title: "Foundation Models for Time Series Forecasting: A Review and an Empirical Study of Fine-Tuning Strategies"
+  authors:
+    - family-names: Laglil
+      given-names: Morad
+    - family-names: Pracca
+      given-names: Bertrand
+    - family-names: Devijver
+      given-names: Emilie
+    - family-names: Gaussier
+      given-names: Eric
+  journal: "Data & Knowledge Engineering"
+  year: 2026
