@@ -2,13 +2,13 @@
 
 # Fine-Tuning Time Series Foundation Models on GIFT-Eval
 
-**Code for the empirical study of** *Foundation Models for Time Series Forecasting: A Review and an Empirical Study of Fine-Tuning Strategies*
+**Code for the empirical study of** [*Foundation Models and Fine-Tuning: Toward a New Generation of Models for Time Series Forecasting*](https://arxiv.org/abs/2607.23146)
 
 Morad Laglil<sup>1,2</sup> · Bertrand Pracca<sup>2</sup> · Emilie Devijver<sup>1</sup> · Eric Gaussier<sup>1</sup>
 
 <sup>1</sup>Univ. Grenoble Alpes, CNRS, Grenoble INP, LIG &nbsp;&nbsp; <sup>2</sup>Savoye
 
-[![Journal](https://img.shields.io/badge/Data_%26_Knowledge_Engineering-Elsevier-ff6c00)](#citation)
+[![arXiv](https://img.shields.io/badge/arXiv-2607.23146-b31b1b)](https://arxiv.org/abs/2607.23146)
 [![Benchmark](https://img.shields.io/badge/benchmark-GIFT--Eval-4b8bbe)](https://huggingface.co/datasets/Salesforce/GiftEval)
 [![Models](https://img.shields.io/badge/models-Chronos--2_%7C_TTM--R3--PT-6f42c1)](#models-and-strategies)
 [![Python](https://img.shields.io/badge/python-3.11-3776ab)](#setup)
@@ -270,11 +270,14 @@ illustrate. Zero-shot results should match exactly.
 ## Citation
 
 ```bibtex
-@article{laglil2026foundation,
-  title   = {Foundation Models for Time Series Forecasting: A Review and an Empirical Study of Fine-Tuning Strategies},
-  author  = {Laglil, Morad and Pracca, Bertrand and Devijver, Emilie and Gaussier, Eric},
-  journal = {Data \& Knowledge Engineering},
-  year    = {2026}
+@misc{laglil2026foundationmodelsfinetuningnew,
+      title={Foundation Models and Fine-Tuning: Toward a New Generation of Models for Time Series Forecasting},
+      author={Morad Laglil and Bertrand Pracca and Emilie Devijver and Eric Gaussier},
+      year={2026},
+      eprint={2607.23146},
+      archivePrefix={arXiv},
+      primaryClass={cs.LG},
+      url={https://arxiv.org/abs/2607.23146},
 }
 ```
 

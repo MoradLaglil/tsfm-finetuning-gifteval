@@ -12,8 +12,8 @@ authors:
     given-names: Eric
 license: Apache-2.0
 preferred-citation:
-  type: article
-  title: "Foundation Models for Time Series Forecasting: A Review and an Empirical Study of Fine-Tuning Strategies"
+  type: generic
+  title: "Foundation Models and Fine-Tuning: Toward a New Generation of Models for Time Series Forecasting"
   authors:
     - family-names: Laglil
       given-names: Morad
@@ -23,5 +23,6 @@ preferred-citation:
       given-names: Emilie
     - family-names: Gaussier
       given-names: Eric
-  journal: "Data & Knowledge Engineering"
   year: 2026
+  url: "https://arxiv.org/abs/2607.23146"
+  notes: "arXiv:2607.23146 [cs.LG]"
