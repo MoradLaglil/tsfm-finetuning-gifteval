@@ -83,6 +83,7 @@ Breakdowns by dataset size, number of series, mean series length and domain × h
 │   └── requirements.txt
 ├── analysis/
 │   ├── aggregate.py           # normalization by Seasonal Naive + all tables of the paper
+│   ├── stats_tests.py         # Friedman + Wilcoxon/Holm tests behind the significance markers
 │   ├── make_figure.py         # figure above
 │   ├── seasonal_naive.csv     # official GIFT-Eval Seasonal Naive results (normalization reference)
 │   └── dataset_properties.csv # size, number of series, mean length of each GIFT-Eval dataset
@@ -266,6 +267,27 @@ used for the paper: Chronos-2 fine-tuning with seeds 42 and 1000, TTM-R3-PT with
 **Reproducibility note.** Fine-tuning on GPU is not bit-for-bit deterministic (cuDNN autotuning, data loading,
 hardware), so reruns can differ slightly from the published numbers, as the seed-to-seed standard deviations above
 illustrate. Zero-shot results should match exactly.
+
+### Statistical tests
+
+`analysis/stats_tests.py` runs the tests behind the significance markers of the paper tables. It uses the same
+normalized scores as `aggregate.py`, with one value per configuration and strategy (averaged over seeds), and
+lower is better:
+
+1. a Friedman test across the four strategies, on all configurations and within each size, number-of-series and
+   mean-length group. The group p-values are Holm-corrected across the three groups of each grouping;
+2. where the Friedman test is significant, two-sided Wilcoxon signed-rank tests on the six pairs of strategies,
+   Holm-corrected over the six pairs (α = 0.05).
+
+```bash
+python analysis/stats_tests.py                 # paper results (results/paper/)
+python analysis/stats_tests.py --source runs   # your own runs (all four strategies are needed)
+```
+
+For each group, the script prints how each fine-tuning strategy compares with zero-shot: ▲ means a significantly
+lower error, ▼ a significantly higher error and – no significant difference. It writes the Friedman tests, all
+pairwise tests and these markers as CSV to `analysis/output/<source>/stats/`. It needs scipy, which is installed in
+both environments.
 
 ## Citation
 
