@@ -208,9 +208,6 @@ How each pipeline uses these splits:
 | Fine-tuning data | `validation_dataset` (all data before the test windows); AutoGluon keeps the last *H* steps aside for its validation score | sliding windows of `training_dataset` |
 | Validation | not used for checkpoint selection | last window of each series of `validation_dataset` (early stopping) |
 
-**Configurations.** Both models are run on the GIFT-Eval configurations used in the paper; TTM-R3-PT additionally
-covers `m4_yearly`, `m4_quarterly` and `restaurant`. The lists are at the top of `chronos2/run_chronos2.py` and
-`ttm/run_ttm_r3.py`.
 
 ## Models and strategies
 
