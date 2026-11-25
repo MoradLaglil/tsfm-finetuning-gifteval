@@ -48,24 +48,65 @@ tuning-free deployment rather than the best achievable performance.
 
 ## Results at a glance
 
-<p align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="assets/finetuning_vs_zeroshot_dark.png">
-    <img src="assets/finetuning_vs_zeroshot_light.png" width="95%" alt="Relative change in normalized WQL of FFT, LoRA-FullShot and LoRA-FewShot compared with zero-shot, for small, medium and large datasets and overall, for Chronos-2 and TTM-R3-PT">
-  </picture>
-</p>
+Average normalized error within each domain and forecast horizon, as reported in the paper (lower is better;
+1 = Seasonal Naive). Fine-tuned results are mean ± std over seeds (zero-shot is deterministic); bold marks the best
+strategy of each model.
 
-Average normalized errors over all configurations (lower is better; 1 = Seasonal Naive; mean ± std over seeds):
+**MWQL<sub>n</sub>**
 
-| Model | Metric | Zero-Shot | FFT | LoRA-FullShot | LoRA-FewShot |
-|---|---|---|---|---|---|
-| Chronos-2 (94 configs) | MWQL<sub>n</sub> | **0.356** | 0.404 ± 0.000 | 0.362 ± 0.003 | 0.385 ± 0.003 |
-| | MAPE<sub>n</sub> | **0.792** | 0.986 ± 0.001 | 0.843 ± 0.014 | 0.809 ± 0.009 |
-| TTM-R3-PT (97 configs) | MWQL<sub>n</sub> | 0.399 | **0.396 ± 0.001** | 0.409 ± 0.000 | 0.410 ± 0.001 |
-| | MAPE<sub>n</sub> | 0.920 | **0.914 ± 0.001** | 0.932 ± 0.007 | 0.940 ± 0.005 |
+<table>
+<thead>
+<tr><th rowspan="2">Domain</th><th rowspan="2">Horizon</th><th colspan="4">Chronos-2</th><th colspan="4">TTM-R3-PT</th></tr>
+<tr><th>Zero-Shot</th><th>FFT</th><th>LoRA-FullShot</th><th>LoRA-FewShot</th><th>Zero-Shot</th><th>FFT</th><th>LoRA-FullShot</th><th>LoRA-FewShot</th></tr>
+</thead>
+<tbody>
+<tr><td rowspan="3">Transport</td><td>Short</td><td>0.314</td><td><b>0.311</b><sub>±0.000</sub></td><td>0.314<sub>±0.001</sub></td><td>0.339<sub>±0.003</sub></td><td><b>0.336</b></td><td>0.338<sub>±0.000</sub></td><td>0.339<sub>±0.002</sub></td><td>0.337<sub>±0.001</sub></td></tr>
+<tr><td>Medium</td><td>0.146</td><td><b>0.138</b><sub>±0.000</sub></td><td>0.140<sub>±0.000</sub></td><td>0.144<sub>±0.000</sub></td><td>0.143</td><td><b>0.142</b><sub>±0.000</sub></td><td><b>0.142</b><sub>±0.000</sub></td><td><b>0.142</b><sub>±0.001</sub></td></tr>
+<tr><td>Long</td><td>0.123</td><td><b>0.120</b><sub>±0.000</sub></td><td>0.127<sub>±0.000</sub></td><td>0.126<sub>±0.000</sub></td><td>0.125</td><td><b>0.124</b><sub>±0.000</sub></td><td><b>0.124</b><sub>±0.000</sub></td><td><b>0.124</b><sub>±0.000</sub></td></tr>
+<tr><td rowspan="3">Nature</td><td>Short</td><td><b>0.367</b></td><td>0.435<sub>±0.000</sub></td><td>0.381<sub>±0.000</sub></td><td>0.388<sub>±0.006</sub></td><td>0.419</td><td>0.415<sub>±0.001</sub></td><td>0.412<sub>±0.001</sub></td><td><b>0.410</b><sub>±0.003</sub></td></tr>
+<tr><td>Medium</td><td><b>0.174</b></td><td>0.180<sub>±0.000</sub></td><td>0.175<sub>±0.000</sub></td><td>0.179<sub>±0.000</sub></td><td>0.188</td><td>0.187<sub>±0.000</sub></td><td><b>0.186</b><sub>±0.000</sub></td><td>0.187<sub>±0.001</sub></td></tr>
+<tr><td>Long</td><td>0.153</td><td>0.161<sub>±0.000</sub></td><td><b>0.152</b><sub>±0.000</sub></td><td>0.153<sub>±0.001</sub></td><td>0.162</td><td>0.162<sub>±0.000</sub></td><td><b>0.161</b><sub>±0.001</sub></td><td><b>0.161</b><sub>±0.001</sub></td></tr>
+<tr><td rowspan="3">Web/CloudOps</td><td>Short</td><td>0.469</td><td>0.572<sub>±0.001</sub></td><td><b>0.460</b><sub>±0.017</sub></td><td>0.470<sub>±0.000</sub></td><td><b>0.536</b></td><td>0.554<sub>±0.004</sub></td><td>0.547<sub>±0.006</sub></td><td>0.541<sub>±0.008</sub></td></tr>
+<tr><td>Medium</td><td>0.382</td><td>0.464<sub>±0.000</sub></td><td><b>0.380</b><sub>±0.010</sub></td><td>0.433<sub>±0.006</sub></td><td><b>0.399</b></td><td>0.406<sub>±0.004</sub></td><td>0.405<sub>±0.006</sub></td><td>0.411<sub>±0.002</sub></td></tr>
+<tr><td>Long</td><td>0.393</td><td>0.435<sub>±0.000</sub></td><td><b>0.383</b><sub>±0.006</sub></td><td>0.504<sub>±0.015</sub></td><td>0.420</td><td>0.410<sub>±0.002</sub></td><td>0.409<sub>±0.001</sub></td><td><b>0.405</b><sub>±0.001</sub></td></tr>
+<tr><td rowspan="1">Econ/Fin</td><td>Short</td><td>0.603</td><td>0.615<sub>±0.001</sub></td><td><b>0.601</b><sub>±0.001</sub></td><td>0.606<sub>±0.000</sub></td><td>0.746</td><td><b>0.720</b><sub>±0.000</sub></td><td>0.736<sub>±0.003</sub></td><td>0.729<sub>±0.003</sub></td></tr>
+<tr><td rowspan="3">Energy</td><td>Short</td><td><b>0.520</b></td><td>0.617<sub>±0.001</sub></td><td>0.561<sub>±0.002</sub></td><td>0.544<sub>±0.003</sub></td><td>0.556</td><td><b>0.550</b><sub>±0.003</sub></td><td>0.565<sub>±0.009</sub></td><td>0.571<sub>±0.009</sub></td></tr>
+<tr><td>Medium</td><td><b>0.255</b></td><td>0.278<sub>±0.000</sub></td><td>0.259<sub>±0.000</sub></td><td>0.302<sub>±0.002</sub></td><td>0.271</td><td><b>0.270</b><sub>±0.001</sub></td><td><b>0.270</b><sub>±0.002</sub></td><td>0.271<sub>±0.002</sub></td></tr>
+<tr><td>Long</td><td><b>0.225</b></td><td>0.251<sub>±0.000</sub></td><td>0.227<sub>±0.000</sub></td><td>0.272<sub>±0.001</sub></td><td><b>0.234</b></td><td>0.236<sub>±0.001</sub></td><td><b>0.234</b><sub>±0.001</sub></td><td><b>0.234</b><sub>±0.001</sub></td></tr>
+<tr><td rowspan="1">Healthcare</td><td>Short</td><td>0.360</td><td>0.439<sub>±0.000</sub></td><td><b>0.341</b><sub>±0.005</sub></td><td>0.405<sub>±0.011</sub></td><td>0.450</td><td><b>0.420</b><sub>±0.003</sub></td><td>0.593<sub>±0.022</sub></td><td>0.612<sub>±0.012</sub></td></tr>
+<tr><td rowspan="1">Sales</td><td>Short</td><td>0.369</td><td>0.381<sub>±0.000</sub></td><td><b>0.364</b><sub>±0.000</sub></td><td>0.379<sub>±0.004</sub></td><td><b>0.407</b></td><td>0.412<sub>±0.004</sub></td><td>0.441<sub>±0.009</sub></td><td>0.453<sub>±0.010</sub></td></tr>
+</tbody>
+</table>
 
-Breakdowns by dataset size, number of series, mean series length and domain × horizon are produced by
-[`analysis/aggregate.py`](#from-raw-results-to-the-paper-tables).
+**MAPE<sub>n</sub>**
+
+<table>
+<thead>
+<tr><th rowspan="2">Domain</th><th rowspan="2">Horizon</th><th colspan="4">Chronos-2</th><th colspan="4">TTM-R3-PT</th></tr>
+<tr><th>Zero-Shot</th><th>FFT</th><th>LoRA-FullShot</th><th>LoRA-FewShot</th><th>Zero-Shot</th><th>FFT</th><th>LoRA-FullShot</th><th>LoRA-FewShot</th></tr>
+</thead>
+<tbody>
+<tr><td rowspan="3">Transport</td><td>Short</td><td>0.591</td><td><b>0.576</b><sub>±0.000</sub></td><td>0.600<sub>±0.001</sub></td><td>0.619<sub>±0.005</sub></td><td>0.635</td><td>0.623<sub>±0.003</sub></td><td>0.618<sub>±0.004</sub></td><td><b>0.616</b><sub>±0.006</sub></td></tr>
+<tr><td>Medium</td><td>0.517</td><td>0.498<sub>±0.000</sub></td><td>0.532<sub>±0.003</sub></td><td><b>0.477</b><sub>±0.001</sub></td><td><b>0.486</b></td><td>0.488<sub>±0.002</sub></td><td>0.487<sub>±0.001</sub></td><td><b>0.486</b><sub>±0.001</sub></td></tr>
+<tr><td>Long</td><td>0.476</td><td>0.405<sub>±0.000</sub></td><td><b>0.400</b><sub>±0.011</sub></td><td>0.435<sub>±0.001</sub></td><td>0.437</td><td><b>0.426</b><sub>±0.001</sub></td><td>0.431<sub>±0.001</sub></td><td>0.431<sub>±0.001</sub></td></tr>
+<tr><td rowspan="3">Nature</td><td>Short</td><td><b>0.677</b></td><td>0.939<sub>±0.000</sub></td><td>0.704<sub>±0.005</sub></td><td>0.760<sub>±0.027</sub></td><td>0.719</td><td><b>0.692</b><sub>±0.003</sub></td><td>0.698<sub>±0.001</sub></td><td>0.712<sub>±0.002</sub></td></tr>
+<tr><td>Medium</td><td><b>0.901</b></td><td>1.295<sub>±0.000</sub></td><td>1.023<sub>±0.010</sub></td><td>1.297<sub>±0.052</sub></td><td><b>0.813</b></td><td>0.862<sub>±0.019</sub></td><td>0.863<sub>±0.017</sub></td><td>0.850<sub>±0.005</sub></td></tr>
+<tr><td>Long</td><td><b>1.042</b></td><td>1.549<sub>±0.000</sub></td><td>1.174<sub>±0.011</sub></td><td>1.147<sub>±0.040</sub></td><td>1.015</td><td>1.014<sub>±0.005</sub></td><td><b>1.007</b><sub>±0.019</sub></td><td>1.036<sub>±0.011</sub></td></tr>
+<tr><td rowspan="3">Web/CloudOps</td><td>Short</td><td><b>0.511</b></td><td>0.698<sub>±0.003</sub></td><td>0.531<sub>±0.032</sub></td><td>0.523<sub>±0.006</sub></td><td><b>0.576</b></td><td>0.604<sub>±0.008</sub></td><td>0.676<sub>±0.008</sub></td><td>0.658<sub>±0.026</sub></td></tr>
+<tr><td>Medium</td><td><b>0.690</b></td><td>1.146<sub>±0.000</sub></td><td>0.859<sub>±0.147</sub></td><td>0.791<sub>±0.005</sub></td><td>1.264</td><td><b>0.928</b><sub>±0.041</sub></td><td>1.026<sub>±0.099</sub></td><td>1.107<sub>±0.035</sub></td></tr>
+<tr><td>Long</td><td>0.695</td><td><b>0.651</b><sub>±0.000</sub></td><td>0.737<sub>±0.014</sub></td><td>0.812<sub>±0.029</sub></td><td>0.995</td><td>0.880<sub>±0.003</sub></td><td>0.880<sub>±0.009</sub></td><td><b>0.870</b><sub>±0.015</sub></td></tr>
+<tr><td rowspan="1">Econ/Fin</td><td>Short</td><td><b>0.663</b></td><td>0.696<sub>±0.001</sub></td><td>0.664<sub>±0.001</sub></td><td>0.681<sub>±0.000</sub></td><td><b>0.811</b></td><td>0.813<sub>±0.002</sub></td><td>0.876<sub>±0.005</sub></td><td>0.866<sub>±0.005</sub></td></tr>
+<tr><td rowspan="3">Energy</td><td>Short</td><td>0.939</td><td>1.158<sub>±0.008</sub></td><td>1.049<sub>±0.005</sub></td><td><b>0.916</b><sub>±0.000</sub></td><td><b>1.086</b></td><td>1.123<sub>±0.004</sub></td><td>1.117<sub>±0.006</sub></td><td>1.121<sub>±0.007</sub></td></tr>
+<tr><td>Medium</td><td>1.012</td><td>1.137<sub>±0.000</sub></td><td>0.969<sub>±0.010</sub></td><td><b>0.870</b><sub>±0.014</sub></td><td><b>1.115</b></td><td>1.153<sub>±0.007</sub></td><td>1.142<sub>±0.001</sub></td><td>1.138<sub>±0.003</sub></td></tr>
+<tr><td>Long</td><td>1.457</td><td>2.029<sub>±0.000</sub></td><td>1.601<sub>±0.007</sub></td><td><b>1.364</b><sub>±0.009</sub></td><td><b>1.763</b></td><td>1.902<sub>±0.019</sub></td><td>1.857<sub>±0.008</sub></td><td>1.866<sub>±0.009</sub></td></tr>
+<tr><td rowspan="1">Healthcare</td><td>Short</td><td>0.500</td><td>0.545<sub>±0.000</sub></td><td><b>0.483</b><sub>±0.008</sub></td><td>0.558<sub>±0.016</sub></td><td>0.578</td><td><b>0.538</b><sub>±0.002</sub></td><td>0.680<sub>±0.017</sub></td><td>0.697<sub>±0.021</sub></td></tr>
+<tr><td rowspan="1">Sales</td><td>Short</td><td>0.681</td><td>0.762<sub>±0.000</sub></td><td>0.709<sub>±0.001</sub></td><td><b>0.673</b><sub>±0.004</sub></td><td><b>0.708</b></td><td>0.771<sub>±0.011</sub></td><td>0.801<sub>±0.004</sub></td><td>0.829<sub>±0.018</sub></td></tr>
+</tbody>
+</table>
+
+Breakdowns by dataset size, number of series and mean series length are produced by
+[`analysis/aggregate.py`](#from-raw-results-to-the-paper-tables), and the significance tests by
+[`analysis/stats_tests.py`](#statistical-tests).
 
 ## Repository structure
 
@@ -84,7 +125,6 @@ Breakdowns by dataset size, number of series, mean series length and domain × h
 ├── analysis/
 │   ├── aggregate.py           # normalization by Seasonal Naive + all tables of the paper
 │   ├── stats_tests.py         # Friedman + Wilcoxon/Holm tests behind the significance markers
-│   ├── make_figure.py         # figure above
 │   ├── seasonal_naive.csv     # official GIFT-Eval Seasonal Naive results (normalization reference)
 │   └── dataset_properties.csv # size, number of series, mean length of each GIFT-Eval dataset
 ├── results/paper/             # raw results behind the paper tables (all seeds)
@@ -168,9 +208,9 @@ How each pipeline uses these splits:
 | Fine-tuning data | `validation_dataset` (all data before the test windows); AutoGluon keeps the last *H* steps aside for its validation score | sliding windows of `training_dataset` |
 | Validation | not used for checkpoint selection | last window of each series of `validation_dataset` (early stopping) |
 
-**Configurations.** Chronos-2 is run on 52 dataset/frequency entries, i.e. **94 configurations**; TTM-R3-PT on the
-same entries plus `m4_yearly`, `m4_quarterly` and `restaurant`, i.e. **97 configurations**, as reported in the
-paper. The lists are at the top of `chronos2/run_chronos2.py` and `ttm/run_ttm_r3.py`.
+**Configurations.** Both models are run on the GIFT-Eval configurations used in the paper; TTM-R3-PT additionally
+covers `m4_yearly`, `m4_quarterly` and `restaurant`. The lists are at the top of `chronos2/run_chronos2.py` and
+`ttm/run_ttm_r3.py`.
 
 ## Models and strategies
 
@@ -257,7 +297,6 @@ mean series length ≤ 720 / ≤ 8,640 / longer.
 ```bash
 python analysis/aggregate.py --check        # paper results (results/paper/), checked against the published values
 python analysis/aggregate.py --source runs  # your own runs (results/chronos2/, results/ttm/)
-python analysis/make_figure.py              # figure of this README
 ```
 
 Tables are printed as Markdown and saved as CSV in `analysis/output/`. `results/paper/` holds the raw files
